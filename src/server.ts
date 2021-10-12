@@ -1,14 +1,19 @@
-import { createApp } from '@typeofweb/server';
+import Bolt from '@slack/bolt';
 
-import { getConfig } from './config';
-import { slackSlashCommandsPlugin } from './integrations/slack/http';
+import { hello } from './commands/hello.js';
+import { getConfig } from './config.js';
 
-export async function init() {
-  const app = createApp({
-    port: getConfig('PORT'),
-    hostname: getConfig('HOST'),
+export function init() {
+  const app = new Bolt.App({
+    token: getConfig('SLACK_BOT_TOKEN'),
+    signingSecret: getConfig('SLACK_SIGNING_SECRET'),
   });
 
-  await app.plugin(slackSlashCommandsPlugin);
-  return app.start();
+  initCommands(app);
+
+  return app.start(getConfig('PORT'));
+}
+
+function initCommands(app: Bolt.App) {
+  hello(app);
 }

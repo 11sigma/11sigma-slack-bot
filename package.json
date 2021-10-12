@@ -1,21 +1,27 @@
 {
   "name": "11sigma-bot",
   "version": "1.0.0",
-  "main": "index.js",
   "author": "Michal Miszczyszyn <michal@mmiszy.pl>",
   "scripts": {
     "dev": "nodemon -e ts -x 'yarn ts-node-esm src/index.ts'",
+    "build": "tsc",
+    "start": "node .",
     "prepare": "husky install",
     "ts-node-esm": "node --loader ts-node/esm --experimental-specifier-resolution=node"
+  },
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
   },
   "type": "module",
   "license": "MIT",
   "dependencies": {
-    "@typeofweb/schema": "0.7.3",
-    "@typeofweb/server": "0.2.2",
-    "@typeofweb/utils": "0.3.0",
-    "dotenv": "10.0.0",
-    "typescript": "4.4.3"
+    "@slack/bolt": "3.7.0",
+    "dotenv": "motdotla/dotenv#2e7760e4d1ede7ee02da0954cb98bd76f2fff4d9",
+    "typescript": "4.5.0-beta"
   },
   "devDependencies": {
     "@tsconfig/node14": "1.0.1",
