@@ -1,6 +1,7 @@
 import Bolt from '@slack/bolt';
 
 import { hello } from './commands/hello.js';
+import { pto } from './commands/pto.js';
 import { getConfig } from './config.js';
 
 export function init() {
@@ -16,4 +17,5 @@ export function init() {
 
 function initCommands(app: Bolt.App) {
   hello(app);
+  pto(app);
 }

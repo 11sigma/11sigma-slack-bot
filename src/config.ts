@@ -11,6 +11,9 @@ interface ParsedProcessEnv {
   readonly SLACK_BOT_TOKEN: string;
   readonly SLACK_SIGNING_SECRET: string;
   readonly COMMANDS_PREFIX: string;
+  readonly GOOGLE_SERVICE_ACCOUNT_EMAIL: string;
+  readonly GOOGLE_SERVICE_ACCOUNT_KEY: string;
+  readonly GOOGLE_SERVICE_ACCOUNT_KEYID: string;
 }
 
 export const getConfig = <N extends keyof ParsedProcessEnv>(name: N): ParsedProcessEnv[N] => {
@@ -28,6 +31,9 @@ export const getConfig = <N extends keyof ParsedProcessEnv>(name: N): ParsedProc
     case 'SLACK_BOT_TOKEN':
     case 'SLACK_SIGNING_SECRET':
     case 'COMMANDS_PREFIX':
+    case 'GOOGLE_SERVICE_ACCOUNT_EMAIL':
+    case 'GOOGLE_SERVICE_ACCOUNT_KEY':
+    case 'GOOGLE_SERVICE_ACCOUNT_KEYID':
       return value as ParsedProcessEnv[N];
   }
 
