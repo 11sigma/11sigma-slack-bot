@@ -1,4 +1,4 @@
-name: Test and Build
+name: Deploy
 
 on:
   push:
@@ -6,9 +6,10 @@ on:
 
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  NODE_ENV: production
 
 jobs:
-  tests:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
