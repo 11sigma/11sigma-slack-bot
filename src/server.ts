@@ -8,6 +8,16 @@ export function init() {
   const app = new Bolt.App({
     token: getConfig('SLACK_BOT_TOKEN'),
     signingSecret: getConfig('SLACK_SIGNING_SECRET'),
+    customRoutes: [
+      {
+        path: '/',
+        method: ['GET'],
+        handler: (_req, res) => {
+          res.writeHead(200);
+          res.end(`It's working!`);
+        },
+      },
+    ],
   });
 
   initCommands(app);
