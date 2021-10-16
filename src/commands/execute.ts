@@ -10,18 +10,17 @@ import type Bolt from '@slack/bolt';
 
 export const execute = (app: Bolt.App) => {
   app.command(`/${getConfig('COMMANDS_PREFIX')}execute`, async ({ ack, body, say }) => {
+    console.log(body.text);
     const parsingResult = tryCatch(() => parseMessage(body.text));
 
     if (parsingResult instanceof Error) {
       await ack({
-        replace_original: false,
-        delete_original: false,
-        response_type: 'ephemeral',
+        response_type: 'in_channel',
         text: errorMessage(parsingResult),
       });
       return;
     } else {
-      await ack({ replace_original: false, delete_original: false, response_type: 'ephemeral', text: 'Executing…' });
+      await ack({ response_type: 'in_channel' });
     }
 
     const { code, language } = parsingResult;
@@ -86,7 +85,7 @@ function parseArg(arg: ResultType) {
   return 'undefined';
 }
 
-const CODE_PATTERN = /^(\w+)\s+```(.*)```$/s;
+const CODE_PATTERN = /^(\w+)\s+(`{3}|`)([^`]+)\2$/s;
 function parseMessage(msg: string) {
   const result = CODE_PATTERN.exec(msg.trim());
 
@@ -95,7 +94,7 @@ function parseMessage(msg: string) {
   }
   return {
     language: result[1].toLowerCase(),
-    code: result[2].trim(),
+    code: result[3].trim(),
   };
 }
 
